@@ -248,6 +248,8 @@ public class DialogueManager : MonoBehaviour
             yield return StartCoroutine(TypeText(currentData.postWinLine));
         }
 
+        //TODO Hoang: add ingredient to collection
+
         // 4. Set exit flag so next click closes the box
         currentLineIndex = 999;
     }

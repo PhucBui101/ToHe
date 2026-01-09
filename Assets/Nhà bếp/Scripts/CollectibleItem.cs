@@ -75,8 +75,9 @@ public class CollectibleItem : MonoBehaviour
         {
             c.enabled = false;
         }
+        //TODO Hoang: add item to collection
     }
-    
+
     void ShowPopupAndDestroy()
     {
         // Hiện popup thông tin
