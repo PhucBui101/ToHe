@@ -35,16 +35,19 @@ public class GameManager : MonoBehaviour
     public GameObject unlockBookPopup;
     public Button unlockCloseButton;
     
+    [Header("=== QUYỂN SÁCH ===")]
+    public GameObject bookObject;
+    
     [Header("=== SETTINGS ===")]
     public float initialDelay = 0.5f;
     public float afterDialogueDelay = 0.5f;
     public float unlockPopupDelay = 0.5f;
+    public float bookAppearDelay = 0.5f;
     
     private List<string> collectedItems = new List<string>();
     private int currentLineIndex = 0;
     private bool allItemsCollected = false;
     
-    // Singleton để các script khác truy cập
     public static GameManager Instance { get; private set; }
     
     void Awake()
@@ -61,19 +64,22 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        // Ẩn prompt
         if (promptTextObject != null)
         {
             promptTextObject.SetActive(false);
         }
         
-        // Ẩn tất cả UI khi bắt đầu
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (levelInfoPopup != null) levelInfoPopup.SetActive(false);
         if (checklistPanel != null) checklistPanel.SetActive(false);
         if (unlockBookPopup != null) unlockBookPopup.SetActive(false);
         
-        // Gán sự kiện cho các nút
+        // Ẩn sách ban đầu
+        if (bookObject != null)
+        {
+            bookObject.SetActive(false);
+        }
+        
         if (continueButton != null)
         {
             continueButton.onClick.AddListener(OnContinueClicked);
@@ -89,13 +95,11 @@ public class GameManager : MonoBehaviour
             unlockCloseButton.onClick.AddListener(OnUnlockBookClosed);
         }
         
-        // Bắt đầu intro sequence
         Invoke("StartDialogue", initialDelay);
     }
     
     void Update()
     {
-        // Nhấn Space để tiếp tục dialogue
         if (dialoguePanel != null && dialoguePanel.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -104,7 +108,6 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        // Nhấn Space để đóng level info
         if (levelInfoPopup != null && levelInfoPopup.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -113,7 +116,6 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        // Nhấn Space để đóng unlock popup
         if (unlockBookPopup != null && unlockBookPopup.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -135,7 +137,6 @@ public class GameManager : MonoBehaviour
             ShowCurrentLine();
         }
         
-        // Dừng game và hiện chuột
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -197,7 +198,6 @@ public class GameManager : MonoBehaviour
             checklistPanel.SetActive(true);
         }
         
-        // Tiếp tục game
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -205,7 +205,6 @@ public class GameManager : MonoBehaviour
     
     // ==================== UNLOCK BOOK ====================
     
-    // Hàm này được gọi từ ItemInfoPopup khi đóng popup vật phẩm cuối
     public void TriggerUnlockBookPopup()
     {
         StartCoroutine(ShowUnlockBookAfterDelay());
@@ -215,19 +214,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(unlockPopupDelay);
         
-        // Ẩn checklist
         if (checklistPanel != null)
         {
             checklistPanel.SetActive(false);
         }
         
-        // Hiện popup mở khóa sổ
         if (unlockBookPopup != null)
         {
             unlockBookPopup.SetActive(true);
         }
         
-        // Dừng game và hiện chuột
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -245,8 +241,27 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
-        // TODO: Thêm code chuyển scene hoặc mở sổ ở đây
-        Debug.Log("Mở quyển sổ của ông!");
+        // Hiện sách sau một chút delay
+        StartCoroutine(ShowBookAfterDelay());
+    }
+    
+    System.Collections.IEnumerator ShowBookAfterDelay()
+    {
+        yield return new WaitForSeconds(bookAppearDelay);
+        
+        if (bookObject != null)
+        {
+            bookObject.SetActive(true);
+            
+            // Kích hoạt script BookInteraction trên sách
+            BookInteraction bookScript = bookObject.GetComponent<BookInteraction>();
+            if (bookScript != null)
+            {
+                bookScript.ActivateBook();
+            }
+            
+            Debug.Log("Quyển sách bí ẩn đã xuất hiện! Hãy tìm và tương tác với nó.");
+        }
     }
     
     // ==================== COLLECT ITEMS ====================
@@ -256,14 +271,12 @@ public class GameManager : MonoBehaviour
         collectedItems.Add(itemName);
         UpdateChecklist(itemName);
         
-        // Kiểm tra đã đủ 5 món chưa
         if (collectedItems.Count >= totalItemsNeeded)
         {
             allItemsCollected = true;
         }
     }
     
-    // Hàm kiểm tra đã thu thập đủ chưa (để ItemInfoPopup gọi)
     public bool IsAllItemsCollected()
     {
         return allItemsCollected;
