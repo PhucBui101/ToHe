@@ -249,6 +249,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         //TODO Hoang: add ingredient to collection
+        
 
         // 4. Set exit flag so next click closes the box
         currentLineIndex = 999;
@@ -279,4 +280,13 @@ public class DialogueManager : MonoBehaviour
         }
         if (!fadeIn) uiPanel.SetActive(false);
     }
+
+    #if UNITY_EDITOR
+    [ContextMenu("Cheat Choice Right")]
+    private void CheatChoiceRight()
+    {
+        currentNPC.hasWon = true;
+        StartCoroutine(ShowWinSequence());
+    }
+    #endif
 }

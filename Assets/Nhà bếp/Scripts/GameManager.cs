@@ -318,4 +318,15 @@ public class GameManager : MonoBehaviour
             promptTextObject.SetActive(show);
         }
     }
+    public void ShowPrompt(bool show, string text)
+    {
+        if (promptTextObject != null)
+        {
+            promptTextObject.SetActive(show);
+            if (text != null)
+            {
+                promptTextObject.GetComponent<TextMeshProUGUI>().text = text;
+            }
+        }
+    }
 }

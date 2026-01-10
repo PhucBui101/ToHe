@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class ItemInfoPopup : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject popupPanel;
     public Button closeButton;
+
+    public TextMeshProUGUI itemDescriptionText;
 
     [Header("Settings")]
     public bool pauseGameWhenOpen = true;
@@ -47,10 +49,15 @@ public class ItemInfoPopup : MonoBehaviour
         }
     }
 
-    public void ShowPopup()
+    public void ShowPopup(ItemData itemData)
     {
         popupPanel.SetActive(true);
         isPopupOpen = true;
+
+        if (itemData != null)
+        {
+            itemDescriptionText.text = $"Thu được {itemData.itemName}: {itemData.description}";
+        }
 
         if (pauseGameWhenOpen)
         {
