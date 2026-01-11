@@ -100,25 +100,28 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        // Click chuột trái để tiếp tục dialogue
         if (dialoguePanel != null && dialoguePanel.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetMouseButtonDown(0))
             {
                 OnContinueClicked();
             }
         }
         
+        // Click chuột trái để đóng level info
         if (levelInfoPopup != null && levelInfoPopup.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetMouseButtonDown(0))
             {
                 OnLevelInfoClosed();
             }
         }
         
+        // Click chuột trái để đóng unlock popup
         if (unlockBookPopup != null && unlockBookPopup.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetMouseButtonDown(0))
             {
                 OnUnlockBookClosed();
             }
