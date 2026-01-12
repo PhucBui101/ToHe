@@ -97,7 +97,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 6ef7a6740ca7ed94680472eb8a03bbdc, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -186,6 +186,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ffa3271a3d9408841b93d1e67e3210a4, type: 2}
+    - target: {fileID: -4512085301870797253, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4512085301870797253, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
+      propertyPath: m_TagString
+      value: 'Interactable '
+      objectReference: {fileID: 0}
     - target: {fileID: -3269420999153479808, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -241,6 +249,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
       propertyPath: m_Name
       value: hang rao
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
+      propertyPath: m_TagString
+      value: 'Interactable '
       objectReference: {fileID: 0}
     - target: {fileID: 3501234699002989799, guid: 72f7de317d1d42d4dbc25ce07b181a38, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -847,6 +859,10 @@ PrefabInstance:
     - target: {fileID: 4872568683434265725, guid: 48d5608f2efbbe646a5b27b6955685c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8306636163303642732, guid: 48d5608f2efbbe646a5b27b6955685c1, type: 3}
+      propertyPath: interactableLayer.m_Bits
+      value: 136
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

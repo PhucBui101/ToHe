@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Ch\u1EE3 t\u1EBFt/cho tet.unity"
     guid: ccc3dcbca5979c546b17e4ac1dbd702d
+  - enabled: 1
+    path: Assets/puzzle/PuzzleScene.unity
+    guid: 7bdda2f918b35254598d963f57d79463
   m_configObjects: {}
