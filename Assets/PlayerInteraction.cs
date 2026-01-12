@@ -47,16 +47,25 @@ public class PlayerInteraction : MonoBehaviour
             // 🟡 BÀN PUZZLE
             else
             {
-                isInteracting = true;
-                interactText.gameObject.SetActive(true);
-
-                if (interactImage != null)
-                    interactImage.SetActive(true);
-
-                if (Input.GetKeyDown(KeyCode.E))
+                if(InventoryManager.Instance.IsCanMakeToHe())
                 {
-                    SceneManager.LoadScene(puzzleScene);
+                    isInteracting = true;
+                    interactText.gameObject.SetActive(true);
+
+                    if (interactImage != null)
+                        interactImage.SetActive(true);
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        SceneManager.LoadScene(puzzleScene);
+                    }
                 }
+                else
+                {
+                    Debug.Log("ko du do");
+                }
+                    
+
             }
         }
 
@@ -66,5 +75,15 @@ public class PlayerInteraction : MonoBehaviour
             if (interactImage != null)
                 interactImage.SetActive(false);
         }
+    }
+    // Inside your Puzzle Game logic script
+    public void OnPuzzleWon()
+    {
+        // Save the victory state
+        PlayerPrefs.SetInt("PuzzleFinished", 1);
+        PlayerPrefs.Save();
+
+        // Go back to the main game scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
 }

@@ -56,6 +56,7 @@ public class InventoryManager : MonoBehaviour
             ItemId.KitchenItem_Knife,
             ItemId.KitchenItem_OngDua,
             ItemId.KitchenItem_Wasp,
+            ItemId.KitchenItem_Luoc
         };
         foreach (var kitchenItem in requiredKitchenItems)
         {
