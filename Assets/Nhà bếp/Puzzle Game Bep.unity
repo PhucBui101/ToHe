@@ -1285,7 +1285,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a07864f17a1abdf48ab8057fcf41a770, type: 3}
   - {fileID: 21300000, guid: a07864f17a1abdf48ab8057fcf41a770, type: 3}
   - {fileID: 21300000, guid: a07864f17a1abdf48ab8057fcf41a770, type: 3}
-  - {fileID: 21300000, guid: a07864f17a1abdf48ab8057fcf41a770, type: 3}
+  - {fileID: 21300000, guid: 5e150e276e02bbd43baed20eaf52bae1, type: 3}
   puzzleColumns: 3
   puzzleRows: 3
   puzzleContainer: {fileID: 1328621902}
@@ -1316,7 +1316,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b4d17b970cd47784f853076762be457c, type: 2}
   - {fileID: 11400000, guid: ccff01227a3214744a4ddb0d3cd54b8b, type: 2}
   - {fileID: 11400000, guid: ad6f46187ca18054492990cb2357c356, type: 2}
-  mainSceneName: Nha bep
+  mainSceneName: bep
   flipDuration: 0.8
   pageColor: {r: 1, g: 0.97, b: 0.91, a: 1}
 --- !u!1 &962868399

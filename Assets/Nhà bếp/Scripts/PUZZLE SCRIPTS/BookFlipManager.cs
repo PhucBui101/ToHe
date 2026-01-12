@@ -20,15 +20,11 @@ public class BookFlipManager : MonoBehaviour
     public Image flipShadow;
     
     [Header("=== PAGE CONTENT SPRITES ===")]
-    [Tooltip("Hình cho trang trái: Intro, Level1, Level2, Level3...")]
     public Sprite[] leftPageSprites;
-    [Tooltip("Hình cho trang phải: Intro, Level1, Level2, Level3...")]
     public Sprite[] rightPageSprites;
     
     [Header("=== PUZZLE SETTINGS ===")]
-    [Tooltip("Số cột của puzzle")]
     public int puzzleColumns = 3;
-    [Tooltip("Số hàng của puzzle")]
     public int puzzleRows = 3;
     
     [Header("=== PUZZLE ELEMENTS ===")]
@@ -47,7 +43,6 @@ public class BookFlipManager : MonoBehaviour
     public float flipDuration = 0.8f;
     public Color pageColor = new Color(1f, 0.97f, 0.91f);
     
-    // Trạng thái game
     private int currentPageIndex = 0;
     private int currentLevel = -1;
     private int[] currentRotations;
@@ -63,8 +58,18 @@ public class BookFlipManager : MonoBehaviour
         totalPieces = puzzleColumns * puzzleRows;
         currentRotations = new int[totalPieces];
         
+        CreateGameStateManagerIfNeeded();
         SetupInitialState();
         SetupButtons();
+    }
+    
+    void CreateGameStateManagerIfNeeded()
+    {
+        if (GameStateManager.Instance == null)
+        {
+            GameObject go = new GameObject("GameStateManager");
+            go.AddComponent<GameStateManager>();
+        }
     }
     
     void SetupInitialState()
@@ -130,14 +135,22 @@ public class BookFlipManager : MonoBehaviour
                 break;
                 
             case GameState.GameComplete:
+                MarkPuzzleCompleted();
                 BackToMainScene();
                 break;
         }
     }
     
+    void MarkPuzzleCompleted()
+    {
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetPuzzleCompleted();
+        }
+    }
+    
     void UpdatePageDisplay()
     {
-        // Cập nhật hình trang trái
         if (leftPageImage != null)
         {
             if (leftPageSprites != null && currentPageIndex < leftPageSprites.Length && 
@@ -153,7 +166,6 @@ public class BookFlipManager : MonoBehaviour
             }
         }
         
-        // Cập nhật hình trang phải
         if (rightPageImage != null)
         {
             if (rightPageSprites != null && currentPageIndex < rightPageSprites.Length && 
@@ -223,7 +235,6 @@ public class BookFlipManager : MonoBehaviour
         
         flippingPage.gameObject.SetActive(true);
         
-        // Đặt hình mặt trước
         if (rightPageSprites != null && currentPageIndex < rightPageSprites.Length && 
             rightPageSprites[currentPageIndex] != null)
         {
@@ -236,7 +247,6 @@ public class BookFlipManager : MonoBehaviour
             flippingPageFront.color = pageColor;
         }
         
-        // Đặt hình mặt sau
         int nextIndex = currentPageIndex + 1;
         if (leftPageSprites != null && nextIndex < leftPageSprites.Length && 
             leftPageSprites[nextIndex] != null)
@@ -260,7 +270,6 @@ public class BookFlipManager : MonoBehaviour
         float halfDuration = flipDuration / 2f;
         float elapsed = 0f;
         
-        // PHASE 1: Gập trang
         while (elapsed < halfDuration)
         {
             elapsed += Time.deltaTime;
@@ -282,11 +291,9 @@ public class BookFlipManager : MonoBehaviour
             yield return null;
         }
         
-        // Đổi mặt
         flippingPageFront.gameObject.SetActive(false);
         flippingPageBack.gameObject.SetActive(true);
         
-        // PHASE 2: Mở trang
         elapsed = 0f;
         while (elapsed < halfDuration)
         {

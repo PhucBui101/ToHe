@@ -34,6 +34,15 @@ public class BookInteraction : MonoBehaviour
     void Update()
     {
         if (!isActivated) return;
+
+        // --- PHẦN ĐÃ SỬA ---
+        // Không cho tương tác nếu đã hoàn thành puzzle
+        if (GameStateManager.Instance != null && GameStateManager.Instance.puzzleCompleted)
+        {
+            if (promptText != null) promptText.SetActive(false);
+            return;
+        }
+        // -------------------
         
         // Kiểm tra khoảng cách với Player
         if (playerTransform != null)

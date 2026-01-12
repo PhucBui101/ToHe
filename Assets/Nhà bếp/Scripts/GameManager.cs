@@ -46,7 +46,9 @@ public class GameManager : MonoBehaviour
     
     private List<string> collectedItems = new List<string>();
     private int currentLineIndex = 0;
+    
     private bool allItemsCollected = false;
+    private bool returnedFromPuzzle = false; 
     
     public static GameManager Instance { get; private set; }
     
@@ -74,7 +76,7 @@ public class GameManager : MonoBehaviour
         if (checklistPanel != null) checklistPanel.SetActive(false);
         if (unlockBookPopup != null) unlockBookPopup.SetActive(false);
         
-        // Ẩn sách ban đầu
+        // Ẩn sách ban đầu (chỉ hiện khi hoàn thành thu thập)
         if (bookObject != null)
         {
             bookObject.SetActive(false);
@@ -95,7 +97,16 @@ public class GameManager : MonoBehaviour
             unlockCloseButton.onClick.AddListener(OnUnlockBookClosed);
         }
         
-        Invoke("StartDialogue", initialDelay);
+        // Kiểm tra xem có phải quay về từ puzzle không
+        if (GameStateManager.Instance != null && GameStateManager.Instance.puzzleCompleted)
+        {
+            returnedFromPuzzle = true;
+            SetupFreeRoamMode();
+        }
+        else
+        {
+            Invoke("StartDialogue", initialDelay);
+        }
     }
     
     void Update()
@@ -333,5 +344,49 @@ public class GameManager : MonoBehaviour
         {
             promptTextObject.SetActive(show);
         }
+    }
+
+    // ==================== FREE ROAM MODE ====================
+    
+    void SetupFreeRoamMode()
+    {
+        // Ẩn tất cả UI
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        if (levelInfoPopup != null) levelInfoPopup.SetActive(false);
+        if (checklistPanel != null) checklistPanel.SetActive(false);
+        if (unlockBookPopup != null) unlockBookPopup.SetActive(false);
+        if (promptTextObject != null) promptTextObject.SetActive(false);
+        
+        // Ẩn tất cả đồ vật thu thập
+        HideAllCollectibles();
+        
+        // KHÔNG ẩn sách - chỉ vô hiệu hóa tương tác (xử lý trong BookInteraction)
+        // Nếu sách chưa active thì bật lên (để đảm bảo nó hiện diện trong scene)
+        if (bookObject != null && !bookObject.activeSelf)
+        {
+            bookObject.SetActive(true);
+        }
+
+        // Cho phép di chuyển tự do
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
+        Debug.Log("Free Roam Mode - Di chuyển tự do!");
+    }
+
+    void HideAllCollectibles()
+    {
+        // Tìm và ẩn tất cả đồ vật có script CollectibleItem
+        CollectibleItem[] collectibles = FindObjectsOfType<CollectibleItem>();
+        foreach (CollectibleItem item in collectibles)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public bool IsReturnedFromPuzzle()
+    {
+        return returnedFromPuzzle;
     }
 }
