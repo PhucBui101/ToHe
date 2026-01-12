@@ -82,7 +82,9 @@ public class CollectibleItem : MonoBehaviour
         // Hiện popup thông tin
         if (ItemInfoPopup.Instance != null)
         {
-            ItemInfoPopup.Instance.ShowPopup();
+            // --- ĐÃ SỬA THEO YÊU CẦU ---
+            // Truyền biến itemName vào để popup hiển thị đúng tên vật phẩm
+            ItemInfoPopup.Instance.ShowPopup(itemName); 
         }
         
         // Xóa đồ vật
