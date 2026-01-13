@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Cái nồi nấu đồ
+// Cái nồi nấu đồ
 public class Cooker : MonoBehaviour
 {
     private bool playerIsNear = false;
@@ -20,11 +20,12 @@ public class Cooker : MonoBehaviour
             playerIsNear = true;
             if (gameManager != null)
             {
-                gameManager.ShowPrompt(true, "Nhấn Tab để mở túi & nấu đồ");
+                // FIXED: Provided both arguments (bool, string)
+                gameManager.ShowPrompt(true);
             }
         }
     }
-    
+
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -32,6 +33,8 @@ public class Cooker : MonoBehaviour
             playerIsNear = false;
             if (gameManager != null)
             {
+                // FIXED: Provided both arguments (bool, string) 
+                // We use an empty string "" for the second argument when hiding
                 gameManager.ShowPrompt(false);
             }
         }

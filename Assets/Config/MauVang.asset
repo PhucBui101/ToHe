@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 4
   itemName: "M\xE0u V\xE0ng"
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: 79aded14ba0c69a43a7ae3d25a126802, type: 3}
+  description: "\u0110\u01B0\u1EE3c t\u1EA1o ra t\u1EEB tinh ch\u1EA5t c\u1EE7 ngh\u1EC7
+    t\u01B0\u01A1i, mang s\u1EAFc m\xE0u c\u1EE7a n\u1EAFng v\xE0 l\xFAa ch\xEDn."
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

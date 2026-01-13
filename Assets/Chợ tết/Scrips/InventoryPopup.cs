@@ -8,15 +8,18 @@ using TMPro;
 [RequireComponent(typeof(CanvasGroup))]
 public class InventoryPopup : MonoBehaviour
 {
+    // FIX: Add static instance so InventoryManager can find it
+    public static InventoryPopup Instance;
+
     [Header("UI References")]
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform panel;
-    
+
     [Header("Item List (Left Side)")]
     [SerializeField] private Transform itemsContainer;
     [SerializeField] private InventoryItemUI itemUIPrefab;
     [SerializeField] private ToggleGroup toggleGroup;
-    
+
     [Header("Item Info Display (Right Side)")]
     [SerializeField] private Image infoIconImage;
     [SerializeField] private TextMeshProUGUI infoNameText;
@@ -27,48 +30,33 @@ public class InventoryPopup : MonoBehaviour
 
     private List<InventoryItemUI> currentItemUIs = new List<InventoryItemUI>();
 
+    private void Awake()
+    {
+        // Initialize Singleton
+        if (Instance == null) Instance = this;
+    }
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (canvasGroup == null)
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-        }
+        if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
     }
 #endif
 
-    /// <summary>
-    /// Parses items from InventoryManager and creates UI elements for each item.
-    /// </summary>
+    // FIX: This method must be public and robust to prevent invisible items
     public void ParseData()
     {
-        // Release cursor lock state to interact with dialog
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
+
         ClearItemList();
         chosingData = null;
 
-        if (InventoryManager.Instance == null)
-        {
-            Debug.LogWarning("InventoryPopup: InventoryManager.Instance is null");
-            return;
-        }
-
-        if (itemsContainer == null)
-        {
-            Debug.LogWarning("InventoryPopup: Items container is not assigned");
-            return;
-        }
-
-        if (itemUIPrefab == null)
-        {
-            Debug.LogWarning("InventoryPopup: Item UI prefab is not assigned");
-            return;
-        }
+        if (InventoryManager.Instance == null) return;
+        if (itemsContainer == null || itemUIPrefab == null) return;
 
         List<ItemData> items = InventoryManager.Instance.playerItems;
-        
+
         if (items == null || items.Count == 0)
         {
             HideItemInfo();
@@ -78,14 +66,11 @@ public class InventoryPopup : MonoBehaviour
         foreach (ItemData item in items)
         {
             if (item == null) continue;
-
             CreateItemUI(item);
         }
 
-        // Select first item by default if available
-        if (currentItemUIs.Count > 0 && currentItemUIs[0] != null)
+        if (currentItemUIs.Count > 0)
         {
-            // Set the toggle to selected state, which will trigger the callback
             currentItemUIs[0].isOn = true;
         }
         else
@@ -94,21 +79,17 @@ public class InventoryPopup : MonoBehaviour
         }
     }
 
+    // FIX: Renamed to match the RefreshUI call from InventoryManager if needed
+    public void RefreshUI() => ParseData();
+
     private void CreateItemUI(ItemData itemData)
     {
-        if (itemUIPrefab == null || itemsContainer == null) return;
-
         InventoryItemUI itemUI = Instantiate(itemUIPrefab, itemsContainer);
         itemUI.Setup(itemData, OnItemSelected);
-        
-        // Assign toggle group if available (ensures only one item can be selected at a time)
-        if (toggleGroup != null)
-        {
-            itemUI.group = toggleGroup;
-        }
-        
+
+        if (toggleGroup != null) itemUI.group = toggleGroup;
+
         itemUI.gameObject.SetActive(true);
-        
         currentItemUIs.Add(itemUI);
     }
 
@@ -119,89 +100,47 @@ public class InventoryPopup : MonoBehaviour
             HideItemInfo();
             return;
         }
-
         chosingData = selectedItem;
         ShowItemInfo(selectedItem);
     }
 
     private void ShowItemInfo(ItemData item)
     {
-        if (infoPanel != null)
-        {
-            infoPanel.SetActive(true);
-        }
-
+        if (infoPanel != null) infoPanel.SetActive(true);
+        // FIX: Ensure icon is enabled when showing
         if (infoIconImage != null)
         {
-            infoIconImage.sprite = item.icon;
-            //infoIconImage.enabled = item.icon != null;
+            infoIconImage.sprite = item.icon; // Check if your ItemData uses 'icon' or 'itemIcon'
+            infoIconImage.enabled = true;
         }
-
-        if (infoNameText != null)
-        {
-            infoNameText.text = item.itemName ?? string.Empty;
-        }
-
-        if (infoDescriptionText != null)
-        {
-            infoDescriptionText.text = item.description ?? string.Empty;
-        }
-
-        btnUse.interactable = item.isUsableAtKitchen;
+        if (infoNameText != null) infoNameText.text = item.itemName;
+        if (infoDescriptionText != null) infoDescriptionText.text = item.description;
+        if (btnUse != null) btnUse.interactable = item.isUsableAtKitchen;
     }
 
     private void HideItemInfo()
     {
-        if (infoPanel != null)
-        {
-            infoPanel.SetActive(false);
-        }
-
-        if (infoIconImage != null)
-        {
-            infoIconImage.sprite = null;
-            infoIconImage.enabled = false;
-        }
-
-        if (infoNameText != null)
-        {
-            infoNameText.text = string.Empty;
-        }
-
-        if (infoDescriptionText != null)
-        {
-            infoDescriptionText.text = string.Empty;
-        }
+        if (infoPanel != null) infoPanel.SetActive(false);
     }
 
     private void ClearItemList()
     {
+        // Physically destroy old GameObjects to avoid duplicates or invisible ghosts
         foreach (InventoryItemUI itemUI in currentItemUIs)
         {
-            if (itemUI != null)
-            {
-                Destroy(itemUI.gameObject);
-            }
+            if (itemUI != null) Destroy(itemUI.gameObject);
         }
-
         currentItemUIs.Clear();
     }
 
     public void ClickUseItem()
     {
         if (chosingData == null) return;
-
         if (chosingData.isUsableAtKitchen)
         {
             InventoryManager.Instance.RemoveItem(chosingData);
             InventoryManager.Instance.AddItem(chosingData.resultItemAfterUsed);
-
-            // Refresh UI data by parsing again instead of closing dialog
             ParseData();
-        }
-        else
-        {
-            CloseDialog();
         }
     }
 
@@ -210,58 +149,33 @@ public class InventoryPopup : MonoBehaviour
     public static InventoryPopup ShowDialog()
     {
         var d = FindObjectOfType<InventoryPopup>(includeInactive: true);
-        if (d != null && !d.isActiveAndEnabled)
+        if (d != null)
         {
             d.gameObject.SetActive(true);
-            d.ParseData();
+            d.ParseData(); // Ensure data is parsed every time Tab is pressed
             d.AnimationShow();
             return d;
         }
-
         return null;
     }
 
     protected virtual void AnimationShow()
     {
         this.panel.localScale = Vector3.zero;
-        if (this.canvasGroup != null)
-        {
-            this.canvasGroup.alpha = 1;
-        }
-        
-        Sequence seq = DOTween.Sequence();
-        seq.Join(this.panel.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
-        seq.OnComplete(this.OnCompleteShow).SetDelay(0.001f);
+        if (this.canvasGroup != null) this.canvasGroup.alpha = 1;
+        this.panel.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
     }
 
-    protected virtual void OnCompleteShow()
-    {
-    }
+    public void CloseDialog() => AnimationHide();
 
     protected virtual void AnimationHide()
     {
-        Sequence seq = DOTween.Sequence();
-        seq.Join(this.panel.DOScale(0.0f, 0.2f).SetEase(Ease.Linear));
-        if (this.canvasGroup != null)
-        {
-            seq.Join(this.canvasGroup.DOFade(0, 0.2f));
-        }
-        seq.OnComplete(this.OnCompleteHide).SetId(this.panel);
-    }
-
-    protected virtual void OnCompleteHide()
-    {
-        // Set cursor back to locked state when dialog closes
-        Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        
-        this.gameObject.SetActive(false);
-        Clear();
-    }
-
-    public void CloseDialog()
-    {
-        AnimationHide();
+        this.panel.DOScale(0.0f, 0.2f).SetEase(Ease.Linear).OnComplete(() => {
+            this.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Clear();
+        });
     }
 
     private void Clear()
@@ -269,6 +183,5 @@ public class InventoryPopup : MonoBehaviour
         ClearItemList();
         HideItemInfo();
     }
-
     #endregion
 }

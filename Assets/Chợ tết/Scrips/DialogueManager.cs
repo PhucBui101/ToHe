@@ -21,9 +21,16 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI contentDisplay;
     public float typeSpeed = 0.03f;
 
+    // --- SFX ADDITIONS ---
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip typeSound;
+    [Range(0.1f, 1f)] public float volume = 0.5f;
+    // ---------------------
+
     [Header("Minigame Elements")]
     public GameObject choicesParent;
-    public TextMeshProUGUI[] choiceTexts; // Ensure this is assigned in Inspector
+    public TextMeshProUGUI[] choiceTexts;
     public float choiceFadeSpeed = 2f;
 
     [Header("Shake Settings")]
@@ -60,21 +67,29 @@ public class DialogueManager : MonoBehaviour
         currentNPC = npc;
         currentLineIndex = 0;
         isInMinigame = false;
-        isShaking = false;
-
-        contentDisplay.transform.localPosition = originalTextPos;
 
         StopAllCoroutines();
         StartCoroutine(AnimateUI(true));
 
-        // EXIT BUG FIX: If player has won, show only line 0 and force exit index
         if (currentNPC.hasWon)
         {
             nameDisplay.text = currentData.npcName;
-            completeText = currentData.talkLines[0];
-            StartCoroutine(TypeText(completeText));
+            if (!string.IsNullOrEmpty(currentData.postWinLine))
+            {
+                if (currentData.rewardItem != null && InventoryManager.Instance != null)
+                {
+                    InventoryManager.Instance.AddItem(currentData.rewardItem);
+                }
 
-            // Set index to 999 so the NEXT click triggers CloseDialogue()
+                completeText = currentData.postWinLine;
+                StartCoroutine(TypeText(completeText));
+            }
+            else
+            {
+                completeText = currentData.talkLines[0];
+                StartCoroutine(TypeText(completeText));
+            }
+
             currentLineIndex = 999;
         }
         else
@@ -102,7 +117,6 @@ public class DialogueManager : MonoBehaviour
         isShaking = false;
         contentDisplay.transform.localPosition = originalTextPos;
 
-        // GUARANTEED EXIT: Close immediately if at exit index
         if (currentLineIndex >= 999)
         {
             CloseDialogue();
@@ -126,6 +140,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeText(string text)
     {
+        // --- Existing Shake Logic ---
         if (text.Contains("!!"))
         {
             isShaking = true;
@@ -139,11 +154,28 @@ public class DialogueManager : MonoBehaviour
 
         isTyping = true;
         contentDisplay.text = "";
+
         foreach (char c in text.ToCharArray())
         {
             contentDisplay.text += c;
+
+            // ONE SINGLE POP PER CHARACTER
+            if (audioSource != null && typeSound != null && c != ' ')
+            {
+                // We use PlayOneShot for the individual pop
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
+                audioSource.PlayOneShot(typeSound, volume);
+            }
+
             yield return new WaitForSeconds(typeSpeed);
         }
+
+        // FIX: Stop all remaining audio immediately when the loop finishes
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
         isTyping = false;
     }
 
@@ -165,7 +197,6 @@ public class DialogueManager : MonoBehaviour
         scrollBackground.sprite = choiceSprite;
         if (nextLineButtonObj != null) nextLineButtonObj.SetActive(false);
 
-        // This loop uses the class-level choiceTexts array
         for (int i = 0; i < choiceTexts.Length; i++)
         {
             if (i < currentData.answers.Length) choiceTexts[i].text = currentData.answers[i];
@@ -196,18 +227,17 @@ public class DialogueManager : MonoBehaviour
 
     public void OnChoiceSelected(int index)
     {
-        // 1. Hide choices immediately
-        CanvasGroup cg = choicesParent.GetComponent<CanvasGroup>();
+        if (choicesParent != null) choicesParent.SetActive(false);
+
+        CanvasGroup cg = choicesParent?.GetComponent<CanvasGroup>();
         if (cg != null) { cg.alpha = 0; cg.interactable = false; cg.blocksRaycasts = false; }
-        choicesParent.SetActive(false);
 
         isInMinigame = false;
         scrollBackground.sprite = talkSprite;
         if (nextLineButtonObj != null) nextLineButtonObj.SetActive(true);
 
-        // 2. CRITICAL: Stop the Question typewriter before starting the Win typewriter
         StopAllCoroutines();
-        contentDisplay.text = ""; // Force clear
+        contentDisplay.text = "";
 
         if (index == currentData.correctIndex)
         {
@@ -223,35 +253,8 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator ShowWinSequence()
     {
-        // 1. Clear text and show initial Win Line (e.g., "Mày giỏi đấy cụ ạ...")
         contentDisplay.text = "";
         yield return StartCoroutine(TypeText(currentData.winLine));
-
-        // 2. Wait for player to click before showing reward info
-        while (!Input.GetMouseButtonDown(0) && !Input.GetKeyDown(KeyCode.E))
-        {
-            yield return null;
-        }
-        yield return new WaitForEndOfFrame();
-
-        // 3. Clear screen again for the Post-Win Reward Line
-        contentDisplay.text = "";
-
-        if (!string.IsNullOrEmpty(currentData.postWinLine))
-        {
-            // TRIGGER INVENTORY: Add item if one is assigned in the Inspector
-            if (currentData.rewardItem != null && InventoryManager.Instance != null)
-            {
-                InventoryManager.Instance.AddItem(currentData.rewardItem);
-            }
-
-            yield return StartCoroutine(TypeText(currentData.postWinLine));
-        }
-
-        //TODO Hoang: add ingredient to collection
-        
-
-        // 4. Set exit flag so next click closes the box
         currentLineIndex = 999;
     }
 
@@ -280,13 +283,4 @@ public class DialogueManager : MonoBehaviour
         }
         if (!fadeIn) uiPanel.SetActive(false);
     }
-
-    #if UNITY_EDITOR
-    [ContextMenu("Cheat Choice Right")]
-    private void CheatChoiceRight()
-    {
-        currentNPC.hasWon = true;
-        StartCoroutine(ShowWinSequence());
-    }
-    #endif
 }

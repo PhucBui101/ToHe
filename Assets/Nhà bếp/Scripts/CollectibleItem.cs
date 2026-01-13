@@ -103,7 +103,7 @@ public class CollectibleItem : MonoBehaviour
             playerIsNear = true;
             if (gameManager != null)
             {
-                gameManager.ShowPrompt(true, "Nhấn E để thu thập");
+                gameManager.ShowPrompt(true);
             }
         }
     }

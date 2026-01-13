@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: MauLuc
   m_EditorClassIdentifier: 
   itemId: 2
-  itemName: "M\xE0u L\u1EE5c"
-  icon: {fileID: 0}
-  description: 
+  itemName: "M\xE0u xanh l\xE1"
+  icon: {fileID: 21300000, guid: 60671f1b36f27214996b4031f4231295, type: 3}
+  description: "S\u1EF1 k\u1EBFt h\u1EE3p gi\u1EEFa m\xE0u v\xE0ng c\u1EE7a ngh\u1EC7
+    v\xE0 m\xE0u xanh c\u1EE7a l\xE1 ch\xE0m (ho\u1EB7c l\xE1 ri\u1EC1ng), t\u1EA1o
+    n\xEAn s\u1EAFc m\xE0u c\u1EE7a c\xE2y c\u1ECF, n\xFAi r\u1EEBng."
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: MauTim
   m_EditorClassIdentifier: 
   itemId: 3
-  itemName: "M\xE0u T\xEDm"
-  icon: {fileID: 0}
-  description: 
+  itemName: "M\xE0u \u0111en"
+  icon: {fileID: 21300000, guid: eb11acc97c04e7d45bd996ef0e4bc707, type: 3}
+  description: "Lo\u1EA1i b\u1ED9t \u0111\u01B0\u1EE3c nhu\u1ED9m b\u1EB1ng n\u01B0\u1EDBc
+    c\u1ED1t l\xE1 nh\u1ECD n\u1ED3i c\xF4 \u0111\u1EB7c."
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

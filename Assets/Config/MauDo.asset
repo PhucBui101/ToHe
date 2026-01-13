@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 11
   itemName: "M\xE0u \u0110\u1ECF"
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: f66c53f79b750984892e2155cadc12f7, type: 3}
+  description: "Th\xE0nh ph\u1EA9m t\u1EEB vi\u1EC7c nh\xE0o tr\u1ED9n b\u1ED9t n\u1EBFp
+    v\u1EDBi th\u1ECBt qu\u1EA3 g\u1EA5c ch\xEDn \u0111\u1ECF, kh\xF4ng ch\u1EC9
+    t\u1EA1o n\xEAn m\xE0u s\u1EAFc r\u1EF1c r\u1EE1, b\u1EAFt m\u1EAFt m\xE0 c\xF2n
+    mang \xFD ngh\u0129a c\u1EA7u ch\xFAc may m\u1EAFn, h\u1EF7 s\u1EF1."
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

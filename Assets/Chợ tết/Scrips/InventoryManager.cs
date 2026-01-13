@@ -16,6 +16,13 @@ public class InventoryManager : MonoBehaviour
     {
         if (item != null)
         {
+            // CHECK: Look through playerItems to see if an item with the same ID already exists
+            if (playerItems.Exists(i => i.itemId == item.itemId))
+            {
+                Debug.Log("Item " + item.itemName + " already in inventory. Not adding again.");
+                return; // Exit the function without adding
+            }
+
             playerItems.Add(item);
             Debug.Log("Obtained: " + item.itemName);
         }
@@ -30,9 +37,20 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Tab)) {
+    private void Update()
+    {
+        
+            if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            InventoryPopup popup = InventoryPopup.ShowDialog();
             InventoryPopup.ShowDialog();
+            if (SoundManager.Instance != null) SoundManager.Instance.PlayClickSound();
+            // If the popup was already active, ShowDialog might return null, 
+            // so we use the Instance to force a refresh
+            if (InventoryPopup.Instance != null)
+            {
+                InventoryPopup.Instance.ParseData();
+            }
         }
     }
 

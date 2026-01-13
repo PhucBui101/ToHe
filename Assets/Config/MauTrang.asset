@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 5
   itemName: "M\xE0u Tr\u1EAFng"
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: 715cc1dde41e7034d867dc247b7d516f, type: 3}
+  description: "M\xE0u nguy\xEAn b\u1EA3n c\u1EE7a g\u1EA1o n\u1EBFp tinh khi\u1EBFt
+    sau khi \u0111\u01B0\u1EE3c h\u1EA5p ch\xEDn, c\xF3 th\u1EC3 pha tr\u1ED9n v\u1EDBi
+    c\xE1c m\xE0u kh\xE1c \u0111\u1EC3 cho ra c\xE1c \u0111\u1ED9 \u0111\u1EADm nh\u1EA1t
+    kh\xE1c nhau."
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 23
   itemName: "L\xE1 Ch\xE0m"
-  icon: {fileID: 0}
-  description: "L\xE1 Ch\xE0mL\xE1 Ch\xE0mL\xE1 Ch\xE0m"
+  icon: {fileID: 21300000, guid: d094d39c4a13bbb4d89424bb49e2e7be, type: 3}
+  description: "Lo\u1EA1i l\xE1 \u0111\u1EB7c tr\u01B0ng c\u1EE7a v\xF9ng cao, th\u01B0\u1EDDng
+    d\xF9ng \u0111\u1EC3 nhu\u1ED9m v\u1EA3i ch\xE0m."
   isUsableAtKitchen: 1
   resultItemAfterUsed: {fileID: 11400000, guid: 2c738b3b58b7c403e9c48adc6d058b82, type: 2}
