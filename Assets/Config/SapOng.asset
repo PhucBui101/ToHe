@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 34
   itemName: "S\xE1p Ong"
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: f5979ebd8cf774a4e853520b0f348150, type: 3}
+  description: "H\u0169 s\xE1p ong th\u01A1m ph\u1EE9c ~ c\xF3 th\u1EC3 d\xF9ng cho
+    tr\u01A1n tru v\xE0 t\xF2 he c\xF3 m\xF9i th\u01A1m !"
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

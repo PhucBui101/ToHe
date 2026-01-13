@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 31
   itemName: "N\u1ED3i nh\u1ECF"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 03039b3518474a1479ee41d471ac593d, type: 3}
   description: 
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}

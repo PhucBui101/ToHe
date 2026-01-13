@@ -31,6 +31,11 @@ public class PuzzleWinManager : MonoBehaviour
 
     IEnumerator WinSequence()
     {
+        // --- THE FLAG ---
+        // Save the progress so NPCAppearance knows the puzzle is done
+        PlayerPrefs.SetInt("PuzzleFinished", 1);
+        PlayerPrefs.Save();
+
         winImage.SetActive(true);
         winImage.transform.localScale = Vector3.zero;
 

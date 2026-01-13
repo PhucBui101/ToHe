@@ -631,6 +631,7 @@ MonoBehaviour:
   collectSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   soundVolume: 1
   popupDelay: 1
+  rewardWhenCollected: {fileID: 11400000, guid: db34f30e0c55f4c20b6c9582c1da1cef, type: 2}
 --- !u!65 &234460485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1754,6 +1755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupPanel: {fileID: 343313126}
   closeButton: {fileID: 1112092085}
+  itemDescriptionText: {fileID: 1991093039}
   pauseGameWhenOpen: 1
 --- !u!1 &587676152 stripped
 GameObject:
@@ -1778,6 +1780,7 @@ MonoBehaviour:
   collectSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   soundVolume: 1
   popupDelay: 1
+  rewardWhenCollected: {fileID: 11400000, guid: ac366ec862e994035be0d7a0f8e2f258, type: 2}
 --- !u!65 &587676154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2357,6 +2360,7 @@ MonoBehaviour:
   collectSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   soundVolume: 1
   popupDelay: 1
+  rewardWhenCollected: {fileID: 11400000, guid: a8b090a4029b945df841ca2bd29bc9d1, type: 2}
 --- !u!65 &754755501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4076,6 +4080,7 @@ MonoBehaviour:
   collectSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   soundVolume: 1
   popupDelay: 1
+  rewardWhenCollected: {fileID: 11400000, guid: cf0eb0350ac4c4c999dd09c01b3cd393, type: 2}
 --- !u!65 &1311198044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4611,6 +4616,7 @@ MonoBehaviour:
   collectSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   soundVolume: 1
   popupDelay: 1
+  rewardWhenCollected: {fileID: 11400000, guid: 3758054879d8c49aca0a65522fd05c6e, type: 2}
 --- !u!114 &1460590046
 MonoBehaviour:
   m_ObjectHideFlags: 0

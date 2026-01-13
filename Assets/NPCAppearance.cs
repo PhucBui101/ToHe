@@ -4,17 +4,17 @@ public class NPCAppearance : MonoBehaviour
 {
     void Start()
     {
-        // Check the value we saved in the puzzle scene
+        // Check if the PuzzleWinManager set the flag to 1
         int status = PlayerPrefs.GetInt("PuzzleFinished", 0);
 
         if (status == 1)
         {
-            // Puzzle is done, show the NPC
+            // Show NPC only if puzzle was won
             gameObject.SetActive(true);
         }
         else
         {
-            // Puzzle not done, hide the NPC
+            // Keep NPC hidden otherwise
             gameObject.SetActive(false);
         }
     }

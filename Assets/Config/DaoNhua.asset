@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 32
   itemName: "Dao Nh\u1EF1a"
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: 3e81b6561e1790a4183a8c5c747995cb, type: 3}
+  description: "Chi\u1EBFc dao nh\u1EF1a \u0111\xE3 s\u1EDDn c\u0169, c\xF3 th\u1EC3
+    d\xF9ng \u0111\u1EC3 t\u1EA1o th\xEAm h\u1ECDa ti\u1EBFt cho t\xF2 he m\xE0 kh\xF4ng
+    lo \u0111\u1EE9t tay!"
   isUsableAtKitchen: 0
   resultItemAfterUsed: {fileID: 0}
