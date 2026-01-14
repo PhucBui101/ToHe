@@ -1,38 +1,89 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public float interactionDistance = 3f;
     public LayerMask interactableLayer;
 
-    public Image crosshairImage;
-    public TextMeshProUGUI interactText;
+    public TextMeshProUGUI interactText; // chữ có sẵn của bạn mình
+    public GameObject interactImage;     // hình "Bấm E..."
+
+    // 🔒 FIX CỨNG TÊN SCENE PUZZLE
+    private string puzzleScene = "PuzzleScene";
 
     void Start()
     {
-        if (interactText != null) interactText.gameObject.SetActive(false);
+        if (interactText != null)
+            interactText.gameObject.SetActive(false);
+
+        if (interactImage != null)
+            interactImage.SetActive(false);
     }
 
     void Update()
     {
         RaycastHit hit;
-        // Looking for the door
+        bool isInteracting = false;
+
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactableLayer))
         {
-            if (hit.collider.GetComponent<TransitionScene>() != null)
+            // 🟢 CỬA (GIỮ NGUYÊN LOGIC CŨ)
+            TransitionScene door = hit.collider.GetComponent<TransitionScene>();
+            if (door != null)
             {
+                isInteracting = true;
                 interactText.gameObject.SetActive(true);
+
+                if (interactImage != null)
+                    interactImage.SetActive(false);
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    hit.collider.GetComponent<TransitionScene>().EnterDoor();
+                    door.EnterDoor();
                 }
-                return; // Exit early so we don't hit the 'false' logic below
+            }
+            // 🟡 BÀN PUZZLE
+            else
+            {
+                if(InventoryManager.Instance.IsCanMakeToHe())
+                {
+                    isInteracting = true;
+                    interactText.gameObject.SetActive(true);
+
+                    if (interactImage != null)
+                        interactImage.SetActive(true);
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        SceneManager.LoadScene(puzzleScene);
+                    }
+                }
+                else
+                {
+                    Debug.Log("ko du do");
+                }
+                    
+
             }
         }
 
-        // If not looking at the door
-        interactText.gameObject.SetActive(false);
+        if (!isInteracting)
+        {
+            interactText.gameObject.SetActive(false);
+            if (interactImage != null)
+                interactImage.SetActive(false);
+        }
+    }
+    // Inside your Puzzle Game logic script
+    public void OnPuzzleWon()
+    {
+        // Save the victory state
+        PlayerPrefs.SetInt("PuzzleFinished", 1);
+        PlayerPrefs.Save();
+
+        // Go back to the main game scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
 }

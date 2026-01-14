@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64450e5aa7824a344b2ba716bf736c93, type: 3}
+  m_Name: "Ga\u0323o Ne\u0302\u0301p"
+  m_EditorClassIdentifier: 
+  itemId: 22
+  itemName: "G\u1EA1o N\u1EBFp"
+  icon: {fileID: 21300000, guid: 6751a7f9e0b71934d975c9f80d6ba211, type: 3}
+  description: "Lo\u1EA1i ng\u0169 c\u1ED1c th\u01A1m d\u1EBBo, l\xE0 l\u01B0\u01A1ng
+    th\u1EF1c ch\xEDnh c\u1EE7a ng\u01B0\u1EDDi Vi\u1EC7t v\xE0 l\xE0 ng\u01B0\u1EDDi
+    b\u1EA1n kh\xF4ng th\u1EC3 thi\u1EBFu trong nh\u1EEFng b\u1EEFa \u0103n ngon."
+  isUsableAtKitchen: 1
+  resultItemAfterUsed: {fileID: 11400000, guid: 4e6c4f1d61b974552af13158f241af95, type: 2}

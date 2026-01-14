@@ -15,8 +15,9 @@ public float lifeDuration = 20f;
     private Vector3 direction;
     public void SetUp(Vector3 position, Vector3 direction)
     {
-        //this.transform.position = position;
-        this.transform.localPosition = Vector3.zero;
+        this.transform.position = position;
+        transform.rotation = Quaternion.LookRotation(direction);
+        //this.transform.localPosition = Vector3.zero;
         this.direction = direction;
 
         transform.localScale = Vector3.one * Random.Range(0.7f, 0.8f);
