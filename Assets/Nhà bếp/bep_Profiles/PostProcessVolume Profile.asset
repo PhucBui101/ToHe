@@ -1427,6 +1427,36 @@ MonoBehaviour:
   - {fileID: -4069681186410024897}
   - {fileID: -6726522213668201597}
   - {fileID: 2424858925225624373}
+  - {fileID: 51538422660874464}
+  - {fileID: 5757847950051087886}
+--- !u!114 &51538422660874464
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 10
+  aperture:
+    overrideState: 1
+    value: 25.7
+  focalLength:
+    overrideState: 1
+    value: 100
+  kernelSize:
+    overrideState: 1
+    value: 1
 --- !u!114 &2424858925225624373
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1464,3 +1494,47 @@ MonoBehaviour:
   vignette:
     overrideState: 0
     value: 0.777
+--- !u!114 &5757847950051087886
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 0.19245279, g: 0.12019221, b: 0.12019221, a: 1}
+  center:
+    overrideState: 0
+    value: {x: 0.5, y: 0.5}
+  intensity:
+    overrideState: 1
+    value: 0.4
+  smoothness:
+    overrideState: 1
+    value: 0.19
+  roundness:
+    overrideState: 0
+    value: 1
+  rounded:
+    overrideState: 0
+    value: 0
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
+    overrideState: 0
+    value: 1

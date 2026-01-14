@@ -32,7 +32,22 @@ public class BookFlipManager : MonoBehaviour
     public Image[] puzzlePieces;
     public Button[] puzzleButtons;
     public TextMeshProUGUI levelText;
+    
+    // --- [SỬA 1: THÊM BIẾN COMPLETE MESSAGES] ---
     public TextMeshProUGUI completeText;
+    
+    [Header("=== COMPLETE MESSAGES ===")]
+    [Tooltip("Text hiển thị khi hoàn thành mỗi màn")]
+    [TextArea(1, 3)]
+    public string[] completeMessages = new string[]
+    {
+        "Tuyệt vời! Màn 1 hoàn thành!",
+        "Xuất sắc! Màn 2 hoàn thành!",
+        "Giỏi lắm! Màn 3 hoàn thành!",
+        "Hoàn hảo! Bạn đã hoàn thành tất cả!"
+    };
+    // ----------------------------------------------
+
     public TextMeshProUGUI instructionText;
     
     [Header("=== LEVEL DATA ===")]
@@ -417,8 +432,18 @@ public class BookFlipManager : MonoBehaviour
             isLevelComplete = true;
             currentState = GameState.LevelComplete;
             
+            // --- [SỬA 2: UPDATE LOGIC HIỂN THỊ TEXT] ---
             if (completeText != null)
+            {
                 completeText.gameObject.SetActive(true);
+                
+                // Hiển thị text tương ứng với màn hiện tại
+                if (completeMessages != null && currentLevel >= 0 && currentLevel < completeMessages.Length)
+                {
+                    completeText.text = completeMessages[currentLevel];
+                }
+            }
+            // ---------------------------------------------
             
             if (instructionText != null)
             {
